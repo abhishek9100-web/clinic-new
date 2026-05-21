@@ -54,7 +54,7 @@ export default function LoginPage() {
         <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center shadow-lg">
           <Stethoscope className="h-6 w-6 text-primary-foreground" />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900">MedCare HMS</h1>
+        <h1 className="text-2xl font-bold text-slate-900">New Life Care HMS</h1>
         <p className="text-sm text-slate-500">Hospital Management System</p>
       </div>
 

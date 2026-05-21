@@ -9,6 +9,7 @@ import { Order } from './Order';
 import { Surgery } from './Surgery';
 import { Receipt } from './Receipt';
 import { RMP } from './RMP';
+import {LabReport} from './LabReport';
 
 // This map connects the URL slug (e.g., /api/doctors) to the exact Mongoose model
 export const ModelMap: Record<string, any> = {
@@ -22,6 +23,7 @@ export const ModelMap: Record<string, any> = {
   surgeries: Surgery,
   receipts: Receipt,
   rmps: RMP,
+  labreports: LabReport,
 };
 
 // Helper function to map the collection name to your specific custom ID fields
@@ -35,7 +37,8 @@ export const getIdField = (collection: string) => {
     iprecords: 'ipId',
     orders: 'orderId',
     surgeries: 'id',
-    receipts: 'receiptId'
+    receipts: 'receiptId',
+    labreports: 'reportId',
   };
   return map[collection] || '_id'; // Fallback to MongoDB default if not found
 };

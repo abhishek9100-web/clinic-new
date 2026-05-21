@@ -79,7 +79,7 @@ export default function ECGPage() {
 
   const handlePhoneLookup = async (phone: string) => {
     setOrderForm((p) => ({ ...p, phone }));
-    if (phone.length >= 4) {
+    if (phone.length >= 10) {
       try {
         const patient = (await findPatientByPhone(phone)) || (await findPatientByPhonePartial(phone));
         if (patient) {

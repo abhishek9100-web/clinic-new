@@ -15,6 +15,7 @@ import {
   Search,
   UserCheck,
   FlaskConical,
+  ServerCog
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -33,7 +34,11 @@ const mainItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Outpatient (OP)", url: "/dashboard/outpatient", icon: Stethoscope },
   { title: "X-Ray", url: "/dashboard/xray", icon: X },
+ 
   { title: "Lab Investigation", url: "/dashboard/lab", icon: FlaskConical },
+    { title: "Lab Reports", url: "/dashboard/labreport", icon: FlaskConical },
+
+  { title: "Other Services", url: "/dashboard/otherservices", icon: ServerCog },
   { title: "Pharmacy Billing", url: "/dashboard/billing", icon: CreditCard },
 ];
 

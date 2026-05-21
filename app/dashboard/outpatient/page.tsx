@@ -80,7 +80,7 @@ export default function OutpatientPage() {
 
   const handlePhoneChange = async (val: string) => {
     set("phone", val);
-    if (val.length >= 4) {
+    if (val.length >= 10) {
       try {
         const patient = await findPatientByPhoneAll(val);
         if (patient && patient.phone === val) {

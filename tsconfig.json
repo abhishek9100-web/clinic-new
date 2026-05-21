@@ -51,7 +51,7 @@
     "next.config.js",
     "out/types/**/*.ts",
     "out/dev/types/**/*.ts"
-  ],
+, "app/dashboard/labreport"  ],
   "exclude": [
     "node_modules"
   ]

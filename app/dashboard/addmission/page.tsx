@@ -55,7 +55,7 @@ export default function AdmissionPage() {
     // Update the phone immediately so typing feels perfectly smooth
     set("phone", phoneStr);
     
-    if (phoneStr.length >= 4) {
+    if (phoneStr.length >= 10) {
       try {
         const patient = await findPatientByPhoneAll(phoneStr);
         if (patient) {

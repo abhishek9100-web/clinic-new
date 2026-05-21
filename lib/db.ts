@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = 'mongodb://mongo:jiuKvKdvDfhOOnVemfzYqQjpwuebcQOY@shinkansen.proxy.rlwy.net:43823' || "";
+const MONGODB_URI = 'mongodb://100.108.198.17:27017/wealth' || "";
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
