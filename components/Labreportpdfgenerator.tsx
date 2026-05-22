@@ -107,7 +107,7 @@ function flagValue(value: string, normalValue: string): 'L' | 'H' | '' {
 
 // ─── Layout constants ─────────────────────────────────────────────────────────
 
-const MARGIN      = 14;
+const MARGIN      = 10;
 const PAGE_H      = 297; // A4 mm
 const FOOTER_H    = 30;  // reserved at bottom for footer
 const BODY_LIMIT  = PAGE_H - FOOTER_H;
@@ -133,6 +133,12 @@ async function drawHeader(
     doc.text('L', MARGIN + 7, y + 15);
   }
 
+  // Registration number under left logo
+  doc.setFont('times', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(0);
+  doc.text('Rg.No DM&HO No: 1129/2025', MARGIN, y + 26);
+
   // Doctor image right
   if (docB64) {
     try { doc.addImage(docB64, 'PNG', w - MARGIN - 22, y + 2, 20, 20); } catch (_) {}
@@ -141,7 +147,7 @@ async function drawHeader(
   // Phone top-right
   doc.setFont('times', 'bold'); doc.setFontSize(8);
   doc.setTextColor(0);
-  doc.text('Cell : 9849012345, 9618012345', w - MARGIN, y + 4, { align: 'right' });
+  doc.text('Cell : 8106698380', w - MARGIN, y + 2, { align: 'right' });
 
   // Lab name
   y += 12;
@@ -153,7 +159,7 @@ async function drawHeader(
   doc.setFont('times', 'normal'); doc.setFontSize(9);
   doc.text('Beside Aadhya hospital, backside Nandi temple, Nandipet', w / 2, y, { align: 'center' });
 
-  y += 5;
+  y += 10;
   doc.setDrawColor(0); doc.setLineWidth(0.5);
   doc.line(MARGIN, y, w - MARGIN, y);
 

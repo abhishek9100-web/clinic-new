@@ -144,6 +144,13 @@ function drawCommonHeader(
       doc.text("L", MARGIN + 8, y + 16);
     }
 
+    // --- Added Registration Number below the left logo ---
+    doc.setFont("times", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(lightBlue[0], lightBlue[1], lightBlue[2]);
+    doc.text("Rg.No DM&HO No: 1129/2025", MARGIN, y + 28);
+    // -----------------------------------------------------
+
     try { doc.addImage("/doc1.png", "PNG", w - MARGIN - 24, y + 2, 24, 24); } catch (e) {}
 
     y += 12;
@@ -166,7 +173,7 @@ function drawCommonHeader(
     doc.setFontSize(10);
     doc.setTextColor(lightBlue[0], lightBlue[1], lightBlue[2]);
     doc.setFont("times", "bold");
-    doc.text("Cell : 7989339601, 8897940569", w - MARGIN, y + 4, { align: "right" });
+    doc.text("Cell : 8106698380", w - MARGIN, y + 4, { align: "right" });
 
     try { doc.addImage("/newlo.png", "PNG", MARGIN, y, 24, 24); } catch (e) {}
     try { doc.addImage("/doc1.png", "PNG", w - MARGIN - 24, y + 2, 24, 24); } catch (e) {}
@@ -220,14 +227,16 @@ function drawCommonHeader(
     doc.setTextColor(lightBlue[0], lightBlue[1], lightBlue[2]);
     doc.text(" opposite Nandi statue, old GK Hospital, Nandipet, 503212", w / 2, y, { align: "center" });
 
-    y += 8;
+    y += 12;
   }
 
   if (title) {
+       y += 4;
     doc.setDrawColor(0, 0, 0);
     doc.setLineWidth(0.5);
-    doc.line(MARGIN, y, w - MARGIN, y);
-    y += 3;
+
+    doc.line(MARGIN, y, w - MARGIN , y);
+    y += 2;
     doc.setFontSize(11); doc.setFont("times", "bold");
     doc.setTextColor(0, 0, 0);
     doc.text(title, w / 2, y + 4, { align: "center" });
@@ -237,7 +246,6 @@ function drawCommonHeader(
   }
   return y;
 }
-
 // =========================================================================
 // PATIENT DETAILS BLOCK — STANDARD (for OPD card, final bill, admission)
 // =========================================================================

@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/sidebar";
 
 // ─── Role type ────────────────────────────────────────────────────────────────
-type Role = "admin" | "receptionist" | "pharmacist" | "lab" | string;
+type Role = "admin" | "receptionist" | "pharmasist" | "lab" | string;
 
 // ─── Nav item shape ───────────────────────────────────────────────────────────
 interface NavItem {
@@ -44,18 +44,11 @@ interface NavItem {
 }
 
 // ─── Role → landing page map ──────────────────────────────────────────────────
-/**
- * Where each role should land after login (or on any visit to /dashboard).
- * Admin, Receptionist, Pharmacist keep the default /dashboard overview.
- * Lab goes straight to /dashboard/labreport — their only page.
- */
 const ROLE_HOME: Record<string, string> = {
-  lab:         "/dashboard/labreport",
-  // All other roles stay on /dashboard (no entry needed, handled as fallback)
+  lab: "/dashboard/labreport",
 };
 
 // ─── All nav items by group ───────────────────────────────────────────────────
-
 const mainItems: NavItem[] = [
   { title: "Dashboard",         url: "/dashboard",               icon: LayoutDashboard, end: true },
   { title: "Outpatient (OP)",   url: "/dashboard/outpatient",    icon: Stethoscope },
@@ -79,7 +72,7 @@ const managementItems: NavItem[] = [
 ];
 
 const billingItems: NavItem[] = [
-  { title: "Receipts", url: "/dashboard/receipts", icon: Receipt },
+  { title: "Final Bill", url: "/dashboard/receipts", icon: Receipt },
 ];
 
 const recordItems: NavItem[] = [
@@ -87,24 +80,11 @@ const recordItems: NavItem[] = [
 ];
 
 // ─── Role-based filter helpers ────────────────────────────────────────────────
-/**
- * Normalise the stored role string so comparisons are case-insensitive.
- * Falls back to "admin" when nothing is stored (dev convenience).
- */
 function normaliseRole(raw: string | null): Role {
   if (!raw) return "admin";
   return raw.toLowerCase() as Role;
 }
 
-/**
- * Returns only the nav items each role is allowed to see.
- *
- * Receptionist : OP, X-Ray, Lab Investigation, Lab Reports, Other Services
- * Pharmacist   : Pharmacy Billing, Inpatient, Admission, Treatment Doses,
- *                Medicines, Receipts
- * Lab          : Lab Reports only
- * Admin        : everything
- */
 function getFilteredItems(role: Role) {
   const is = (r: Role) => role === r;
 
@@ -116,35 +96,34 @@ function getFilteredItems(role: Role) {
     "Lab Reports",
     "Other Services",
   ]);
-
-  const PHARMACIST_MAIN = new Set(["Pharmacy Billing"]);
+  const PHARMASIST_MAIN = new Set(["Pharmacy Billing"]);
   const LAB_MAIN        = new Set(["Lab Reports"]);
 
   const filteredMain = mainItems.filter((item) => {
     if (is("admin"))        return true;
     if (is("receptionist")) return RECEPTIONIST_MAIN.has(item.title);
-    if (is("pharmacist"))   return PHARMACIST_MAIN.has(item.title);
+    if (is("pharmasist"))   return PHARMASIST_MAIN.has(item.title);
     if (is("lab"))          return LAB_MAIN.has(item.title);
     return false;
   });
 
   // ── Clinical group ──────────────────────────────────────────────────────────
   const filteredClinical = clinicalItems.filter(() =>
-    is("admin") || is("pharmacist")
+    is("admin") || is("pharmasist")
   );
 
   // ── Management group ────────────────────────────────────────────────────────
-  const PHARMACIST_MGMT = new Set(["Medicines"]);
+  const PHARMASIST_MGMT = new Set(["Medicines"]);
 
   const filteredManagement = managementItems.filter((item) => {
     if (is("admin"))      return true;
-    if (is("pharmacist")) return PHARMACIST_MGMT.has(item.title);
+    if (is("pharmasist")) return PHARMASIST_MGMT.has(item.title);
     return false;
   });
 
   // ── Billing group ───────────────────────────────────────────────────────────
   const filteredBilling = billingItems.filter(() =>
-    is("admin") || is("pharmacist")
+    is("admin") || is("pharmasist")
   );
 
   // ── Records group ───────────────────────────────────────────────────────────
@@ -168,21 +147,21 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const stored = localStorage.getItem("medcare_role");
+    const stored   = localStorage.getItem("medcare_role");
     const normRole = normaliseRole(stored);
+    console.log("Loaded role:", normRole);
     setRole(normRole);
+  }, []); // ← runs once on mount to load role
 
-    // ── Role-based landing redirect ──────────────────────────────────────────
-    // If this role has a custom home page AND the user is currently sitting on
-    // the plain /dashboard root, push them to their designated landing page.
-    // This covers both initial login and any manual navigation to /dashboard.
-    const roleHome = ROLE_HOME[normRole];
+  useEffect(() => {
+    if (!role) return;
+    const roleHome = ROLE_HOME[role];
     if (roleHome && pathname === "/dashboard") {
       router.replace(roleHome);
     }
-  }, [pathname, router]);
+  }, [role, pathname, router]); // ← separate effect, runs when role is ready
 
-  // Loading skeleton — keeps header height stable
+  // ── Loading skeleton ─────────────────────────────────────────────────────────
   if (!role) {
     return (
       <Sidebar

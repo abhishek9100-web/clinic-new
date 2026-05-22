@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   role: { 
     type: String, 
     // I added 'staff' and 'doctor' to your enums just in case you need them later
-    enum: ['admin', 'op', 'billing', 'staff', 'doctor','Receptionist','Pharmasist','Lab'], 
+    enum: ['admin', 'op', 'billing', 'staff', 'doctor','Receptionist','pharmasist','Lab'], 
     required: true,
     default: 'staff'
   },
